@@ -1,0 +1,20 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Leaf shape -->
+  <path d="M80 40 C120 40, 150 70, 150 110 C150 150, 120 180, 80 180 C40 180, 60 150, 60 110 C60 70, 40 40, 80 40" stroke="#22C55E" stroke-width="3" fill="none" />
+  <path d="M80 40 C100 60, 120 80, 80 110" stroke="#22C55E" stroke-width="2" fill="none" />
+  <path d="M80 180 C100 160, 120 140, 80 110" stroke="#22C55E" stroke-width="2" fill="none" />
+
+  <!-- Person figure -->
+  <circle cx="80" cy="70" r="15" stroke="#22C55E" stroke-width="3" fill="none" />
+  <line x1="80" y1="85" x2="80" y2="135" stroke="#22C55E" stroke-width="3" />
+  <line x1="80" y1="95" x2="100" y2="110" stroke="#22C55E" stroke-width="3" />
+  <line x1="80" y1="95" x2="60" y2="110" stroke="#22C55E" stroke-width="3" />
+  <line x1="80" y1="135" x2="100" y2="160" stroke="#22C55E" stroke-width="3" />
+  <line x1="80" y1="135" x2="60" y2="160" stroke="#22C55E" stroke-width="3" />
+
+  <!-- Small decorative elements -->
+  <circle cx="120" cy="60" r="5" fill="#22C55E" opacity="0.5" />
+  <circle cx="130" cy="100" r="3" fill="#22C55E" opacity="0.4" />
+  <circle cx="110" cy="140" r="4" fill="#22C55E" opacity="0.6" />
+  <circle cx="140" cy="75" r="2" fill="#22C55E" opacity="0.3" />
+</svg>
