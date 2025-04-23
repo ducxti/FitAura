@@ -15,7 +15,7 @@ interface QuizState {
   goToPreviousStep: () => void
   setGender: (gender: string) => void
   setWeight: (weight: number) => void
-  setHeight: (feet: number, inches: number) => void
+  setHeight: (heightData: { feet: number; inches: number }) => void
   setAge: (age: number) => void
   setGoal: (goal: string) => void
 }
@@ -68,8 +68,8 @@ export const QuizProvider = ({ children }: QuizProviderProps) => {
   }
 
   // Setup height in one call
-  const setHeightValues = (feet: number, inches: number) => {
-    setHeight({ feet, inches })
+  const setHeightValues = (heightData: { feet: number; inches: number }) => {
+    setHeight(heightData)
   }
 
   const value = {
