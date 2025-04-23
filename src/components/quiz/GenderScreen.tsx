@@ -1,14 +1,16 @@
 'use client'
 
 import React from 'react'
-import { useQuiz } from '@/contexts/QuizContext'
 
-export default function GenderScreen() {
-  const { goToNextStep, setGender } = useQuiz()
+interface GenderScreenProps {
+  onGenderSelect: (gender: string) => void;
+  setGender: (gender: string) => void;
+}
 
+export default function GenderScreen({ onGenderSelect, setGender }: GenderScreenProps) {
   const handleSelectGender = (gender: string) => {
     setGender(gender)
-    goToNextStep()
+    onGenderSelect(gender)
   }
 
   return (

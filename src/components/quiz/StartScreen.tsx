@@ -3,11 +3,12 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
-import { useQuiz } from '@/contexts/QuizContext'
 
-export default function StartScreen() {
-  const { goToNextStep } = useQuiz()
+interface StartScreenProps {
+  onContinue: () => void;
+}
 
+export default function StartScreen({ onContinue }: StartScreenProps) {
   return (
     <div className="text-center">
       <div className="flex justify-center mb-6">
@@ -33,7 +34,7 @@ export default function StartScreen() {
 
       <div className="transform transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98]">
         <Button
-          onClick={goToNextStep}
+          onClick={onContinue}
           className="mt-8 w-full max-w-sm mx-auto py-3 rounded-full text-lg font-medium transition-all duration-300 hover:opacity-90 bg-green-500 hover:bg-green-600 text-white"
         >
           Begin My Assessment <ArrowRight className="ml-2 h-4 w-4" />

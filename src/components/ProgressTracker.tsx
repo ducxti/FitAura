@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { useQuiz } from '@/contexts/QuizContext'
 import { Check } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -23,9 +22,11 @@ const PROGRESS_STEPS = [
   { id: 3, label: 'Eligibility' },
 ]
 
-export default function ProgressTracker() {
-  const { currentStep } = useQuiz()
+interface ProgressTrackerProps {
+  currentStep: number;
+}
 
+export default function ProgressTracker({ currentStep }: ProgressTrackerProps) {
   // Convert the current step to the appropriate progress step
   const currentProgressStep = STEP_MAPPING[currentStep] || 1
 

@@ -1,13 +1,15 @@
 'use client'
 
 import React from 'react'
-import { useQuiz } from '@/contexts/QuizContext'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-export default function Header() {
-  const { currentStep, goToPreviousStep } = useQuiz()
+interface HeaderProps {
+  currentStep?: number;
+  goBack?: () => void;
+}
 
+export default function Header({ currentStep = 1, goBack = () => {} }: HeaderProps) {
   return (
     <header className="w-full border-b border-border py-4">
       <div className="max-w-3xl mx-auto px-4 flex items-center justify-between">
@@ -16,7 +18,7 @@ export default function Header() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={goToPreviousStep}
+            onClick={goBack}
             className="rounded-full -ml-2"
           >
             <ArrowLeft className="h-5 w-5" />
