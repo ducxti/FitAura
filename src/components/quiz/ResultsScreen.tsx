@@ -2,11 +2,16 @@
 
 import React from 'react'
 import { Button } from '@/components/ui/button'
-import { useQuiz } from '@/contexts/QuizContext'
 
-export default function ResultsScreen() {
-  const { gender, weight, height, age, goal } = useQuiz()
+interface ResultsScreenProps {
+  gender: string | null;
+  weight: number | null;
+  height: { feet: number; inches: number } | null;
+  age: number | null;
+  goal: string | null;
+}
 
+export default function ResultsScreen({ gender, weight, height, age, goal }: ResultsScreenProps) {
   // Calculate BMI (basic formula for demonstration)
   const calculateBMI = () => {
     if (!weight || !height) return 'N/A'

@@ -70,15 +70,15 @@ export default function HomePage() {
       case 1:
         return <StartScreen onContinue={goToNextStep} />;
       case 2:
-        return <GenderScreen onSelect={handleGenderSelect} />;
+        return <GenderScreen onGenderSelect={handleGenderSelect} setGender={setGender} />;
       case 3:
-        return <WeightScreen onSubmit={handleWeightSubmit} />;
+        return <WeightScreen onSubmit={handleWeightSubmit} setWeight={setWeight} />;
       case 4:
-        return <HeightScreen onSubmit={handleHeightSubmit} />;
+        return <HeightScreen onSubmit={handleHeightSubmit} setHeight={setHeight} />;
       case 5:
-        return <AgeScreen onSubmit={handleAgeSubmit} />;
+        return <AgeScreen onSubmit={handleAgeSubmit} setAge={setAge} />;
       case 6:
-        return <GoalScreen onSelect={handleGoalSelect} />;
+        return <GoalScreen onSelect={handleGoalSelect} setGoal={setGoal} />;
       case 7:
         return <ResultsScreen gender={gender} weight={weight} height={height} age={age} goal={goal} />;
       default:

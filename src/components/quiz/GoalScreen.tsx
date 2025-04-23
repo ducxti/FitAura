@@ -1,14 +1,16 @@
 'use client'
 
 import React from 'react'
-import { useQuiz } from '@/contexts/QuizContext'
 
-export default function GoalScreen() {
-  const { goToNextStep, setGoal } = useQuiz()
+interface GoalScreenProps {
+  onSelect: (selected: string) => void;
+  setGoal: (goal: string) => void;
+}
 
+export default function GoalScreen({ onSelect, setGoal }: GoalScreenProps) {
   const handleSelectGoal = (goal: string) => {
     setGoal(goal)
-    goToNextStep()
+    onSelect(goal)
   }
 
   // Goals data

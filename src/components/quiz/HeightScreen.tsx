@@ -3,16 +3,19 @@
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
-import { useQuiz } from '@/contexts/QuizContext'
 
-export default function HeightScreen() {
-  const { goToNextStep, setHeight } = useQuiz()
+interface HeightScreenProps {
+  onSubmit: (feet: number, inches: number) => void;
+  setHeight: (heightData: { feet: number; inches: number }) => void;
+}
+
+export default function HeightScreen({ onSubmit, setHeight }: HeightScreenProps) {
   const [feet, setFeet] = useState<number>(5)
   const [inches, setInches] = useState<number>(0)
 
   const handleContinue = () => {
-    setHeight(feet, inches)
-    goToNextStep()
+    setHeight({ feet, inches })
+    onSubmit(feet, inches)
   }
 
   return (

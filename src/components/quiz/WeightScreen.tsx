@@ -3,16 +3,19 @@
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
-import { useQuiz } from '@/contexts/QuizContext'
 
-export default function WeightScreen() {
-  const { goToNextStep, setWeight } = useQuiz()
+interface WeightScreenProps {
+  onSubmit: (value: number) => void;
+  setWeight: (value: number) => void;
+}
+
+export default function WeightScreen({ onSubmit, setWeight }: WeightScreenProps) {
   const [weightValue, setWeightValue] = useState<string>('')
 
   const handleContinue = () => {
     if (weightValue && !isNaN(Number(weightValue))) {
       setWeight(Number(weightValue))
-      goToNextStep()
+      onSubmit(Number(weightValue))
     }
   }
 

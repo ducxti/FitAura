@@ -3,16 +3,19 @@
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
-import { useQuiz } from '@/contexts/QuizContext'
 
-export default function AgeScreen() {
-  const { goToNextStep, setAge } = useQuiz()
+interface AgeScreenProps {
+  onSubmit: (value: number) => void;
+  setAge: (value: number) => void;
+}
+
+export default function AgeScreen({ onSubmit, setAge }: AgeScreenProps) {
   const [ageValue, setAgeValue] = useState<string>('')
 
   const handleContinue = () => {
     if (ageValue && !isNaN(Number(ageValue))) {
       setAge(Number(ageValue))
-      goToNextStep()
+      onSubmit(Number(ageValue))
     }
   }
 
