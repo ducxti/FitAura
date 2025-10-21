@@ -1,64 +1,37 @@
-import type { Metadata, Viewport } from "next"
-import { Inter } from "next/font/google"
-import "./globals.css"
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { GrowthBookClientProvider } from "./providers/growthbook-provider";
 
-// Initialize Inter font
-const inter = Inter({
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-})
+});
 
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  themeColor: "#22c55e", // The green theme color
-}
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: "FitAura | Weight Loss Assessment",
-  description: "Find out if you're eligible for our personalized weight loss program to achieve your health goals.",
-  keywords: ["weight loss", "health assessment", "diet", "fitness", "FitAura", "personalized plan"],
-  authors: [{ name: "FitAura Health Team" }],
-  applicationName: "FitAura Assessment",
-  appleWebApp: {
-    capable: true,
-    title: "FitAura",
-    statusBarStyle: "default",
-  },
-  formatDetection: {
-    telephone: true,
-    date: true,
-    address: true,
-    email: true,
-    url: true,
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://fitaura.com/assessment",
-    siteName: "FitAura",
-    title: "FitAura Weight Loss Assessment",
-    description: "Find out if you're eligible for our personalized weight loss program.",
-    images: [{
-      url: "https://fitaura.com/og-image.jpg", // placeholder URL
-      width: 1200,
-      height: 630,
-      alt: "FitAura Weight Loss Assessment",
-    }],
-  },
-}
+  title: "FitAura - Weight Loss Journey",
+  description: "Begin your personalized weight loss program",
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-background">
-        {children}
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <GrowthBookClientProvider>
+          {children}
+        </GrowthBookClientProvider>
       </body>
     </html>
-  )
+  );
 }
