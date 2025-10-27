@@ -2,7 +2,7 @@
 
 import { useFeatureValue } from '@growthbook/growthbook-react';
 
-export default function StartScreen({ onStart }: { onStart: () => void }) {
+export default function StartScreen({ onContinue }: { onContinue: () => void }) {
   // Просто useFeatureValue - БЕЗ useGrowthBook()!
   const buttonColor = useFeatureValue('button-color-test', 'blue');
   
@@ -34,7 +34,7 @@ export default function StartScreen({ onStart }: { onStart: () => void }) {
       console.log('✅ Conversion tracked:', { userId, buttonColor });
     }
 
-    onStart();
+    onContinue();
   };
 
   return (
