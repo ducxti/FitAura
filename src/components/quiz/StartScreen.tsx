@@ -1,78 +1,82 @@
-'use client'
+'use client';
 
-import React from 'react'
-import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
-import { useFeatureValue } from '@growthbook/growthbook-react'
-import { motion } from 'framer-motion'
+import { useFeatureValue } from '@growthbook/growthbook-react';
 
-interface StartScreenProps {
-  onContinue: () => void;
-}
+export default function StartScreen({ onStart }: { onStart: () => void }) {
+  // Просто useFeatureValue - БЕЗ useGrowthBook()!
+  const buttonColor = useFeatureValue('button-color-test', 'blue');
+  
+  const buttonStyles = {
+    blue: 'bg-blue-600 hover:bg-blue-700',
+    red: 'bg-red-600 hover:bg-red-700',
+    green: 'bg-green-600 hover:bg-green-700'
+  };
 
-export default function StartScreen({ onContinue }: StartScreenProps) {
-  // ✅ ДОДАТИ: Читаємо feature flag з fallback
-  const buttonColor = useFeatureValue('assessment-button-color', 'green') || 'green';
+  const handleClick = () => {
+    // 📊 TRACK CONVERSION
+    const clientId = process.env.NEXT_PUBLIC_CLIENT_ID;
+    const agentUrl = process.env.NEXT_PUBLIC_AI_AGENT_URL;
+    
+    if (clientId && agentUrl) {
+      const userId = getUserId();
+      
+      fetch(`${agentUrl}/api/track/conversion`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client_id: clientId,
+          user_id: userId,
+          experiment_key: 'button-color-test',
+          timestamp: new Date().toISOString()
+        })
+      }).catch(err => console.error('❌ Tracking error:', err));
+      
+      console.log('✅ Conversion tracked:', { userId, buttonColor });
+    }
 
-  // ✅ ДОДАТИ: Мапінг кольорів
-  const colorClasses: Record<string, string> = {
-    green: 'bg-green-500 hover:bg-green-600 text-white',
-    blue: 'bg-blue-500 hover:bg-blue-600 text-white',
-    purple: 'bg-purple-500 hover:bg-purple-600 text-white',
-    orange: 'bg-orange-500 hover:bg-orange-600 text-white',
+    onStart();
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="max-w-2xl mx-auto text-center space-y-8"
-    >
-      <div className="space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
-          Transform Your Body, Transform Your Life
-        </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300">
-          Get your personalized fitness plan in just 2 minutes
+    <div className="text-center space-y-6">
+      <h1 className="text-4xl font-bold">Welcome to FitAura</h1>
+      <p className="text-lg text-gray-600">
+        Discover your personalized fitness journey
+      </p>
+      
+      <button
+        onClick={handleClick}
+        className={`${buttonStyles[buttonColor as keyof typeof buttonStyles] || buttonStyles.blue} text-white px-8 py-4 text-lg rounded-lg transition-colors`}
+      >
+        Begin My Assessment
+      </button>
+      
+      {/* DEBUG */}
+      {process.env.NODE_ENV === 'development' && (
+        <p className="text-xs text-gray-400 mt-2">
+          Current variant: {buttonColor}
         </p>
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-6">
-        <div className="p-6 rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
-          <p className="w-12 h-12 mx-auto mb-4 text-purple-600 dark:text-purple-400" />
-          <h3 className="font-semibold mb-2">Personalized Plans</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Tailored to your goals and fitness level
-          </p>
-        </div>
-
-        <div className="p-6 rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
-          <p className="w-12 h-12 mx-auto mb-4 text-blue-600 dark:text-blue-400" />
-          <h3 className="font-semibold mb-2">Science-Based</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Backed by fitness research and expertise
-          </p>
-        </div>
-
-        <div className="p-6 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
-          <p className="w-12 h-12 mx-auto mb-4 text-green-600 dark:text-green-400" />
-          <h3 className="font-semibold mb-2">Track Progress</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Monitor your transformation journey
-          </p>
-        </div>
-      </div>
-
-      {/* ✅ ЗМІНИТИ: Використовуємо динамічні класи кольорів */}
-      <div className="pt-8">
-        <Button
-          onClick={onContinue}
-          className={`w-full ${colorClasses[buttonColor] || colorClasses.green}`}
-          size="lg"
-        >
-          Begin My Assessment
-        </Button>
-      </div>
-    </motion.div>
+      )}
+    </div>
   );
+}
+
+// Helper: User ID з cookies
+function getUserId(): string {
+  const COOKIE_NAME = 'gb_user_id';
+  
+  if (typeof document !== 'undefined') {
+    const cookies = document.cookie.split('; ');
+    const userCookie = cookies.find(row => row.startsWith(`${COOKIE_NAME}=`));
+    
+    if (userCookie) {
+      return userCookie.split('=')[1];
+    }
+    
+    const newUserId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    document.cookie = `${COOKIE_NAME}=${newUserId}; max-age=${365 * 24 * 60 * 60}; path=/; SameSite=Lax`;
+    return newUserId;
+  }
+  
+  return `user_${Date.now()}`;
 }
