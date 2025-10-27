@@ -65,7 +65,7 @@ export default function HomePage() {
   const renderContent = () => {
     switch(currentStep) {
       case 1:
-        return <StartScreen onStart={goToNextStep} />;
+        return <StartScreen onContinue={goToNextStep} />;
       case 2:
         return <GenderScreen onGenderSelect={handleGenderSelect} setGender={setGender} />;
       case 3:
@@ -79,7 +79,7 @@ export default function HomePage() {
       case 7:
         return <ResultsScreen gender={gender} weight={weight} height={height} age={age} goal={goal} />;
       default:
-        return <StartScreen onStart={goToNextStep} />;
+        return <StartScreen onContinue={goToNextStep} />;
     }
   }
 
