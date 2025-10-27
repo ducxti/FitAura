@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 interface Props {
   children: React.ReactNode;
-  features: any;
+  features: unknown;
 }
 
 export default function ClientGrowthBookProvider({ children, features }: Props) {
