@@ -5,8 +5,8 @@ import { GrowthBookProvider } from '@growthbook/growthbook-react';
 import { useEffect, useState } from 'react';
 
 interface Props {
-  children: React.ReactNode;
-  features: unknown;
+    children: React.ReactNode;
+    features: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export default function ClientGrowthBookProvider({ children, features }: Props) {
