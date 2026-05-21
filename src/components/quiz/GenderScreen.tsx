@@ -34,6 +34,7 @@ export default function GenderScreen({ onGenderSelect, setGender }: GenderScreen
           {['Male', 'Female'].map((gender) => (
             <div
               key={gender}
+              data-gb-id={gender === 'Male' ? 'gender-male-card' : 'gender-female-card'}
               className="p-6 cursor-pointer border-2 hover:border-green-500 hover:bg-green-50 transition-colors flex flex-col items-center rounded-lg"
               onClick={() => handleSelectGender(gender)}
             >
