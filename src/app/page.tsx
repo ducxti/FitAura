@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { FadeInAnimation } from '@/components/FadeInAnimation'
 import { AnimatedStepTransition } from '@/components/AnimatedStepTransition'
 import Header from '@/components/Header'
@@ -20,15 +20,6 @@ export default function HomePage() {
   const [height, setHeight] = useState<{ feet: number; inches: number } | null>(null)
   const [age, setAge] = useState<number | null>(null)
   const [goal, setGoal] = useState<string | null>(null)
-
-  // Inventory mode: коли сторінку відкрито з ?gb_inventory=1, рендеримо ВСІ екрани
-  // одночасно (прихований каталог) — щоб разовий скан GrowthBook AI-bridge зібрав
-  // елементи з усіх кроків wizard, а не лише з першого. Звичайні користувачі не зачеплені.
-  const [inventoryMode, setInventoryMode] = useState(false)
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    setInventoryMode(params.get('gb_inventory') === '1')
-  }, [])
 
   // Function to go to next step
   const goToNextStep = () => {
@@ -90,32 +81,6 @@ export default function HomePage() {
       default:
         return <StartScreen onContinue={goToNextStep} />;
     }
-  }
-
-  // Inventory-каталог: усі екрани одночасно для разового скану AI-bridge.
-  // no-op хендлери — у цьому режимі взаємодія не потрібна, лише наявність елементів у DOM.
-  if (inventoryMode) {
-    const noop = () => {}
-    return (
-      <div className="min-h-screen bg-gray-50 flex flex-col">
-        <Header currentStep={1} goBack={noop} />
-        <ProgressTracker currentStep={1} />
-        <main className="flex-1 flex flex-col">
-          <div
-            data-gb-inventory-catalog
-            className="flex-1 flex flex-col max-w-xl mx-auto w-full px-4 py-8 space-y-16"
-          >
-            <StartScreen onContinue={noop} />
-            <GenderScreen onGenderSelect={noop} setGender={noop} />
-            <WeightScreen onSubmit={noop} setWeight={noop} />
-            <HeightScreen onSubmit={noop} setHeight={noop} />
-            <AgeScreen onSubmit={noop} setAge={noop} />
-            <GoalScreen onSelect={noop} setGoal={noop} />
-            <ResultsScreen gender={gender} weight={weight} height={height} age={age} goal={goal} />
-          </div>
-        </main>
-      </div>
-    )
   }
 
   return (
