@@ -26,6 +26,27 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Anti-flicker boot: синхронно (beforeInteractive, до першого paint) реєструє стиль
+            .gb-prehide, яким ai-bridge ховає target-и експериментів до підміни варіанту.
+            Незалежний timeout-fallback розховує все через 2s — контент НІКОЛИ не лишиться
+            прихованим, навіть якщо ai-bridge.js не завантажився/впав (інваріант VWO). */}
+        <Script id="gb-antiflicker-boot" strategy="beforeInteractive">
+          {`
+            (function () {
+              try {
+                var s = document.createElement("style");
+                s.id = "gb-antiflicker";
+                s.textContent = ".gb-prehide{visibility:hidden !important;}";
+                (document.head || document.documentElement).appendChild(s);
+                setTimeout(function () {
+                  var h = document.querySelectorAll(".gb-prehide");
+                  for (var i = 0; i < h.length; i++) h[i].classList.remove("gb-prehide");
+                }, 2000);
+              } catch (e) {}
+            })();
+          `}
+        </Script>
+
         {/* GrowthBook AI Bridge — глобальні змінні для bridge */}
         <Script id="gb-ai-bridge-config" strategy="beforeInteractive">
           {`
